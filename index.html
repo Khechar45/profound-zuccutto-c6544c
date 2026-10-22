@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RV Resort | Explore Your Getaway</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f2eb;color:#20241f}
+.hero{min-height:62vh;display:flex;align-items:flex-end;padding:28px 20px;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.72)),url('assets/photo_02.jpeg') center/cover}
+.hero h1{font-size:clamp(42px,12vw,76px);margin:0;color:#fff;letter-spacing:-2px}
+.hero p{color:#eee;font-size:18px;margin:8px 0 0}
+.wrap{max-width:1000px;margin:auto;padding:26px 18px 50px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 28px}
+.btn{padding:13px 18px;border-radius:999px;text-decoration:none;font-weight:700;background:#20241f;color:#fff}
+.btn.alt{background:#d9b36c;color:#20241f}
+h2{font-size:28px;margin:34px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.grid img{width:100%;height:210px;object-fit:cover;border-radius:14px;cursor:pointer}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:100;align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:100%;max-height:90vh;border-radius:10px}
+.lightbox-close{position:absolute;top:16px;right:20px;color:#fff;font-size:34px;line-height:1;background:none;border:none;cursor:pointer;padding:6px}
+.videos{display:grid;gap:14px}
+video{width:100%;border-radius:16px;background:#111}
+.amenities{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.card{background:#fff;border-radius:16px;padding:17px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.card b{display:block;font-size:17px;margin-bottom:4px}
+footer{text-align:center;padding:30px 10px;color:#686d67}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.grid img{height:190px}.amenities{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<section class="hero"><div><h1>RV Resort</h1><p>Thinking of a getaway? Come explore your private escape.</p></div></section>
+<main class="wrap">
+<div class="cta">
+<a class="btn alt" href="tel:8367448866">📞 Call 8367448866</a>
+<a class="btn" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&g_st=ic">📍 Get Directions</a>
+</div>
+<h2>✨ Resort Highlights</h2>
+<div class="amenities">
+<div class="card">🏊 <b>Private Swimming Pool</b>Relax and enjoy your own pool.</div>
+<div class="card">🌧️ <b>Rain Dance</b>Fun for groups and celebrations.</div>
+<div class="card">🛏️ <b>Private Suite Room</b>A private space to unwind.</div>
+<div class="card">👥 <b>Accommodation for 15–20 People</b>Ideal for group getaways.</div>
+<div class="card">🛁 <b>Bathtub</b>A relaxing touch for your stay.</div>
+<div class="card">🎉 <b>Large Hall for Gatherings</b>Perfect for larger groups and events.</div>
+<div class="card">🌿 <b>Private Outdoor Spaces</b>Enjoy the open surroundings.</div>
+</div>
+<h2>📸 Explore RV Resort</h2>
+<div class="grid" id="gallery"><img src="assets/photo_01.jpeg" alt="RV Resort photo 1" loading="lazy">
+<img src="assets/photo_02.jpeg" alt="RV Resort photo 2" loading="lazy">
+<img src="assets/photo_03.jpeg" alt="RV Resort photo 3" loading="lazy">
+<img src="assets/photo_04.jpeg" alt="RV Resort photo 4" loading="lazy">
+<img src="assets/photo_05.jpeg" alt="RV Resort photo 5" loading="lazy">
+<img src="assets/photo_06.jpeg" alt="RV Resort photo 6" loading="lazy">
+<img src="assets/photo_07.jpeg" alt="RV Resort photo 7" loading="lazy">
+<img src="assets/photo_08.jpeg" alt="RV Resort photo 8" loading="lazy">
+<img src="assets/photo_09.jpeg" alt="RV Resort photo 9" loading="lazy">
+<img src="assets/photo_10.jpeg" alt="RV Resort photo 10" loading="lazy">
+<img src="assets/photo_11.jpeg" alt="RV Resort photo 11" loading="lazy">
+<img src="assets/photo_12.jpeg" alt="RV Resort photo 12" loading="lazy">
+<img src="assets/photo_13.jpeg" alt="RV Resort photo 13" loading="lazy">
+<img src="assets/photo_14.jpeg" alt="RV Resort photo 14" loading="lazy">
+<img src="assets/photo_15.jpeg" alt="RV Resort photo 15" loading="lazy">
+<img src="assets/photo_16.jpeg" alt="RV Resort photo 16" loading="lazy">
+<img src="assets/photo_17.jpeg" alt="RV Resort photo 17" loading="lazy">
+<img src="assets/photo_18.jpeg" alt="RV Resort photo 18" loading="lazy"></div>
+<h2>🎥 Watch the Resort</h2>
+<div class="videos"><video controls playsinline preload="metadata"><source src="assets/video_01.mp4" type="video/mp4"></video>
+<video controls playsinline preload="metadata"><source src="assets/video_02.mp4" type="video/mp4"></video></div>
+<h2>📍 Find Us</h2>
+<a class="btn alt" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&g_st=ic">Open Location in Google Maps</a>
+<h2>📞 Contact</h2>
+<p style="font-size:20px"><a href="tel:8367448866">8367448866</a></p>
+</main>
+<footer>RV Resort · Temporary showcase</footer>
+<div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button><img id="lightboxImg" src="" alt=""></div>
+<script>
+var gallery=document.getElementById('gallery'),lightbox=document.getElementById('lightbox'),lightboxImg=document.getElementById('lightboxImg');
+gallery.addEventListener('click',function(e){
+if(e.target.tagName!=='IMG')return;
+lightboxImg.src=e.target.src;
+lightboxImg.alt=e.target.alt;
+lightbox.classList.add('open');
+});
+function closeLightbox(){lightbox.classList.remove('open');lightboxImg.src='';}
+document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
+lightbox.addEventListener('click',function(e){if(e.target===lightbox)closeLightbox();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
+</script>
+</body>
+</html>
