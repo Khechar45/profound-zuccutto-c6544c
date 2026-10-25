@@ -209,6 +209,20 @@
     .floor-row--pair { max-width: 760px; }
     .floor-row--solo { max-width: 374px; }
     .media-tile--natural img { position: static; display: block; height: auto; }
+    .floor-gallery .media-tile::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: rgba(13, 31, 22, 0); transition: background .3s ease;
+    }
+    .floor-gallery .media-tile::after {
+      content: "\2197"; position: absolute; z-index: 2; top: 10px; right: 10px; display: grid; width: 32px; height: 32px;
+      place-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%;
+      background: rgba(16,43,32,.55); backdrop-filter: blur(6px); color: #fff; font-size: 14px; line-height: 1;
+      opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease;
+    }
+    .floor-gallery .media-tile__caption { z-index: 2; }
+    .floor-gallery .media-tile:hover::before, .floor-gallery .media-tile:focus-visible::before { background: rgba(13, 31, 22, .14); }
+    .floor-gallery .media-tile:hover::after, .floor-gallery .media-tile:focus-visible::after { opacity: 1; transform: none; }
+    @media (hover: none) { .floor-gallery .media-tile::after { opacity: .9; transform: none; } }
 
     .video-block { margin-top: 30px; }
     .video-block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin-bottom: 13px; }
@@ -308,6 +322,20 @@
     .dialog-close:hover { background: rgba(255,255,255,.2); }
     .dialog-image { display: block; max-width: 100%; max-height: calc(100svh - 130px); margin: 0 auto; border-radius: 10px; object-fit: contain; }
     .dialog-caption { min-height: 24px; margin: 12px 0 0; color: rgba(255,255,255,.84); text-align: center; font-size: 13px; }
+    .dialog-count { position: absolute; top: 28px; left: 22px; margin: 0; color: rgba(255,255,255,.72); font-size: 12px; font-weight: 650; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+    .dialog-nav {
+      position: absolute; z-index: 1; top: 50%; display: grid; width: 46px; height: 46px; place-items: center;
+      border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: rgba(16,43,32,.82); color: white;
+      font-size: 20px; cursor: pointer; transform: translateY(-50%); transition: background .2s ease;
+    }
+    .dialog-nav:hover { background: rgba(255,255,255,.2); }
+    .dialog-nav--prev { left: 18px; }
+    .dialog-nav--next { right: 18px; }
+    .dialog-nav[hidden], .dialog-count[hidden] { display: none; }
+    .dialog-image { touch-action: pan-y pinch-zoom; }
+    @media (max-width: 699px) {
+      .dialog-nav { top: auto; bottom: 18px; width: 42px; height: 42px; transform: none; }
+    }
 
     @media (max-width: 419px) {
       .brand-copy small { display: none; }
@@ -901,6 +929,9 @@
 
   <dialog class="gallery-dialog" id="gallery-dialog" aria-label="Expanded property photo">
     <button class="dialog-close" type="button" aria-label="Close photo">&times;</button>
+    <p class="dialog-count" id="dialog-count" aria-live="polite" hidden></p>
+    <button class="dialog-nav dialog-nav--prev" type="button" aria-label="Previous photo" hidden>&larr;</button>
+    <button class="dialog-nav dialog-nav--next" type="button" aria-label="Next photo" hidden>&rarr;</button>
     <img class="dialog-image" id="dialog-image" src="" alt="">
     <p class="dialog-caption" id="dialog-caption"></p>
   </dialog>
@@ -910,16 +941,53 @@
     const dialogImage = document.getElementById("dialog-image");
     const dialogCaption = document.getElementById("dialog-caption");
     const dialogClose = galleryDialog.querySelector(".dialog-close");
+    const dialogCount = document.getElementById("dialog-count");
+    const dialogPrev = galleryDialog.querySelector(".dialog-nav--prev");
+    const dialogNext = galleryDialog.querySelector(".dialog-nav--next");
     let lastPhotoTrigger = null;
+    let photoGroup = [];
+    let photoIndex = 0;
+
+    function showPhoto(index) {
+      photoIndex = (index + photoGroup.length) % photoGroup.length;
+      const tile = photoGroup[photoIndex];
+      lastPhotoTrigger = tile;
+      dialogImage.src = tile.dataset.full;
+      dialogImage.alt = tile.dataset.alt;
+      dialogCaption.textContent = tile.dataset.caption || "";
+      dialogCount.textContent = (photoIndex + 1) + " / " + photoGroup.length;
+    }
 
     document.querySelectorAll(".media-tile").forEach((tile) => {
       tile.addEventListener("click", () => {
-        lastPhotoTrigger = tile;
-        dialogImage.src = tile.dataset.full;
-        dialogImage.alt = tile.dataset.alt;
-        dialogCaption.textContent = tile.dataset.caption || "";
+        const gallery = tile.closest(".floor-gallery");
+        photoGroup = gallery ? Array.from(gallery.querySelectorAll(".media-tile")) : [tile];
+        const hasNav = photoGroup.length > 1;
+        dialogPrev.hidden = dialogNext.hidden = dialogCount.hidden = !hasNav;
+        showPhoto(photoGroup.indexOf(tile));
         galleryDialog.showModal();
       });
+    });
+
+    dialogPrev.addEventListener("click", () => showPhoto(photoIndex - 1));
+    dialogNext.addEventListener("click", () => showPhoto(photoIndex + 1));
+    galleryDialog.addEventListener("keydown", (event) => {
+      if (photoGroup.length < 2) return;
+      if (event.key === "ArrowLeft") { event.preventDefault(); showPhoto(photoIndex - 1); }
+      if (event.key === "ArrowRight") { event.preventDefault(); showPhoto(photoIndex + 1); }
+    });
+    let touchStartX = null;
+    let touchStartY = 0;
+    galleryDialog.addEventListener("touchstart", (event) => {
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+    }, { passive: true });
+    galleryDialog.addEventListener("touchend", (event) => {
+      if (touchStartX === null || photoGroup.length < 2) return;
+      const dx = event.changedTouches[0].clientX - touchStartX;
+      const dy = event.changedTouches[0].clientY - touchStartY;
+      touchStartX = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) showPhoto(photoIndex + (dx < 0 ? 1 : -1));
     });
 
     dialogClose.addEventListener("click", () => galleryDialog.close());
@@ -930,6 +998,7 @@
       dialogImage.src = "";
       dialogImage.alt = "";
       dialogCaption.textContent = "";
+      dialogCount.textContent = "";
       if (lastPhotoTrigger) lastPhotoTrigger.focus({ preventScroll: true });
     });
 
