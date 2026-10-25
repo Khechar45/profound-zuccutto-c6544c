@@ -202,10 +202,13 @@
     .photo-grid.photo-grid--duo .media-tile { aspect-ratio: 3 / 2; }
     .photo-grid.photo-grid--views { grid-template-columns: minmax(0, 1fr); max-width: 1000px; margin-inline: auto; }
     .photo-grid.photo-grid--views .media-tile { grid-column: auto; aspect-ratio: 16 / 10; }
-    .photo-pair {
-      grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr);
-      gap: 12px; width: 100%; max-width: 760px; margin-inline: auto;
-    }
+
+    .floor-gallery { display: grid; gap: 12px; }
+    .floor-row { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 12px; width: 100%; margin-inline: auto; }
+    .floor-row--trio { max-width: 760px; }
+    .floor-row--pair { max-width: 760px; }
+    .floor-row--solo { max-width: 374px; }
+    .media-tile--natural img { position: static; display: block; height: auto; }
 
     .video-block { margin-top: 30px; }
     .video-block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin-bottom: 13px; }
@@ -323,7 +326,7 @@
       .photo-grid.photo-grid--duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .photo-grid.photo-grid--views { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .photo-grid.photo-grid--views .media-tile { grid-column: auto; }
-      .photo-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .floor-row--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .video-grid--portrait { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
@@ -373,6 +376,9 @@
       .spaces-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
       .photo-grid.photo-grid--views { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .floor-gallery { gap: 14px; }
+      .floor-row { gap: 14px; }
+      .floor-row--trio { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
       .video-grid--portrait { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
@@ -621,39 +627,45 @@
             <p>The living area, kitchen and TV corner open into each other, with both bedrooms and a washroom on the same level.</p>
           </header>
 
-          <div class="photo-grid">
-            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/living-1200.webp" data-alt="Ground-floor living area with tan sofas and blue kitchen cabinets" data-caption="Living area">
-              <img src="assets/rv-resort/living-640.webp" srcset="assets/rv-resort/living-640.webp 640w, assets/rv-resort/living-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="668" alt="Living area with tan sofas, a fish tank and blue kitchen cabinets" loading="lazy" decoding="async">
-              <span class="media-tile__caption">Living area</span>
-            </button>
-            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-left-1200.webp" data-alt="Left bedroom with a green accent wall and colourful bedding" data-caption="Left bedroom">
-              <img src="assets/rv-resort/gallery-bedroom-left-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-640.webp 640w, assets/rv-resort/gallery-bedroom-left-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Left bedroom with a green accent wall and colourful striped bedding" loading="lazy" decoding="async">
-              <span class="media-tile__caption">Left bedroom</span>
-            </button>
-            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/kitchen-1200.webp" data-alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" data-caption="Kitchen">
-              <img src="assets/rv-resort/kitchen-640.webp" srcset="assets/rv-resort/kitchen-640.webp 640w, assets/rv-resort/kitchen-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="676" alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" loading="lazy" decoding="async">
-              <span class="media-tile__caption">Kitchen</span>
-            </button>
-            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-right-1200.webp" data-alt="Right bedroom with a floral bed and pale blue walls" data-caption="Right bedroom">
-              <img src="assets/rv-resort/gallery-bedroom-right-640.webp" srcset="assets/rv-resort/gallery-bedroom-right-640.webp 640w, assets/rv-resort/gallery-bedroom-right-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Right bedroom with a floral bed and pale blue walls" loading="lazy" decoding="async">
-              <span class="media-tile__caption">Right bedroom</span>
-            </button>
-            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/gallery-tv-1200.webp" data-alt="TV corner with a wooden wall panel and two Buddha statues" data-caption="TV corner">
-              <img src="assets/rv-resort/gallery-tv-640.webp" srcset="assets/rv-resort/gallery-tv-640.webp 640w, assets/rv-resort/gallery-tv-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="676" alt="Television and soundbar on a wooden wall panel with two Buddha statues" loading="lazy" decoding="async">
-              <span class="media-tile__caption">TV corner</span>
-            </button>
-            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/bathroom-1200.webp" data-alt="Washroom with a toilet, shower and stone-tiled walls" data-caption="Washroom">
-              <img src="assets/rv-resort/bathroom-640.webp" srcset="assets/rv-resort/bathroom-640.webp 640w, assets/rv-resort/bathroom-1200.webp 1036w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1036" height="1840" alt="Washroom with a toilet, shower and stone-tiled walls" loading="lazy" decoding="async">
-              <span class="media-tile__caption">Washroom</span>
-            </button>
-            <div class="photo-pair">
-              <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-left-2-1200.webp" data-alt="Left bedroom, second view, with a grey feature wall and colourful bedding" data-caption="Left bedroom · second view">
-                <img src="assets/rv-resort/gallery-bedroom-left-2-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-2-640.webp 640w, assets/rv-resort/gallery-bedroom-left-2-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Left bedroom with a grey feature wall and colourful bedding" loading="lazy" decoding="async">
+          <div class="floor-gallery">
+            <div class="floor-row floor-row--trio">
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/kitchen-1200.webp" data-alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" data-caption="Kitchen">
+                <img src="assets/rv-resort/kitchen-640.webp" srcset="assets/rv-resort/kitchen-640.webp 640w, assets/rv-resort/kitchen-1200.webp 1200w" sizes="(max-width: 999px) min(100vw, 760px), 33vw" width="1200" height="676" alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Kitchen</span>
+              </button>
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/gallery-tv-1200.webp" data-alt="Television and soundbar on a wooden wall panel with two Buddha statues" data-caption="TV corner">
+                <img src="assets/rv-resort/gallery-tv-640.webp" srcset="assets/rv-resort/gallery-tv-640.webp 640w, assets/rv-resort/gallery-tv-1200.webp 1200w" sizes="(max-width: 999px) min(100vw, 760px), 33vw" width="1200" height="676" alt="Television and soundbar on a wooden wall panel with two Buddha statues" loading="lazy" decoding="async">
+                <span class="media-tile__caption">TV corner</span>
+              </button>
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/living-1200.webp" data-alt="Living hall with tan sofas and a fish tank, open to the kitchen" data-caption="Living hall">
+                <img src="assets/rv-resort/living-640.webp" srcset="assets/rv-resort/living-640.webp 640w, assets/rv-resort/living-1200.webp 1200w" sizes="(max-width: 999px) min(100vw, 760px), 33vw" width="1200" height="668" alt="Living hall with tan sofas and a fish tank, open to the kitchen" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Living hall</span>
+              </button>
+            </div>
+            <div class="floor-row floor-row--pair" aria-label="Right bedroom">
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/gallery-bedroom-right-1200.webp" data-alt="Right bedroom with a floral bed and pale blue walls" data-caption="Right bedroom · main view">
+                <img src="assets/rv-resort/gallery-bedroom-right-640.webp" srcset="assets/rv-resort/gallery-bedroom-right-640.webp 640w, assets/rv-resort/gallery-bedroom-right-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 380px" width="1200" height="1600" alt="Right bedroom with a floral bed and pale blue walls" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Right bedroom · main view</span>
+              </button>
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/suite-a-1200.webp" data-alt="Right bedroom from the second angle, with floral bedding and a grey feature wall" data-caption="Right bedroom · second view">
+                <img src="assets/rv-resort/suite-a-640.webp" srcset="assets/rv-resort/suite-a-640.webp 640w, assets/rv-resort/suite-a-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 380px" width="1200" height="1600" alt="Right bedroom from the second angle, with floral bedding and a grey feature wall" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Right bedroom · second view</span>
+              </button>
+            </div>
+            <div class="floor-row floor-row--pair" aria-label="Left bedroom">
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/gallery-bedroom-left-1200.webp" data-alt="Left bedroom with a green accent wall and colourful striped bedding" data-caption="Left bedroom · main view">
+                <img src="assets/rv-resort/gallery-bedroom-left-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-640.webp 640w, assets/rv-resort/gallery-bedroom-left-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 380px" width="1200" height="1600" alt="Left bedroom with a green accent wall and colourful striped bedding" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Left bedroom · main view</span>
+              </button>
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/gallery-bedroom-left-2-1200.webp" data-alt="Left bedroom from the second angle, with striped bedding and a grey feature wall" data-caption="Left bedroom · second view">
+                <img src="assets/rv-resort/gallery-bedroom-left-2-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-2-640.webp 640w, assets/rv-resort/gallery-bedroom-left-2-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 380px" width="1200" height="1600" alt="Left bedroom from the second angle, with striped bedding and a grey feature wall" loading="lazy" decoding="async">
                 <span class="media-tile__caption">Left bedroom · second view</span>
               </button>
-              <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/suite-a-1200.webp" data-alt="Right bedroom, second view, with a grey feature wall and floral bedding" data-caption="Right bedroom · second view">
-                <img src="assets/rv-resort/suite-a-640.webp" srcset="assets/rv-resort/suite-a-640.webp 640w, assets/rv-resort/suite-a-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Right bedroom with a grey feature wall and floral bedding" loading="lazy" decoding="async">
-                <span class="media-tile__caption">Right bedroom · second view</span>
+            </div>
+            <div class="floor-row floor-row--solo">
+              <button class="media-tile media-tile--natural" type="button" data-full="assets/rv-resort/bathroom-1200.webp" data-alt="Ground-floor washroom with a toilet, shower and stone-tiled walls" data-caption="Washroom">
+                <img src="assets/rv-resort/bathroom-640.webp" srcset="assets/rv-resort/bathroom-640.webp 640w, assets/rv-resort/bathroom-1200.webp 1036w" sizes="(max-width: 559px) 100vw, 380px" width="1036" height="1840" alt="Ground-floor washroom with a toilet, shower and stone-tiled walls" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Washroom</span>
               </button>
             </div>
           </div>
