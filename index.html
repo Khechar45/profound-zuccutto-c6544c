@@ -1,92 +1,954 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RV Resort | Explore Your Getaway</title>
-<style>
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f2eb;color:#20241f}
-.hero{min-height:62vh;display:flex;align-items:flex-end;padding:28px 20px;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.72)),url('assets/photo_02.jpeg') center/cover}
-.hero h1{font-size:clamp(42px,12vw,76px);margin:0;color:#fff;letter-spacing:-2px}
-.hero p{color:#eee;font-size:18px;margin:8px 0 0}
-.wrap{max-width:1000px;margin:auto;padding:26px 18px 50px}
-.cta{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 28px}
-.btn{padding:13px 18px;border-radius:999px;text-decoration:none;font-weight:700;background:#20241f;color:#fff}
-.btn.alt{background:#d9b36c;color:#20241f}
-h2{font-size:28px;margin:34px 0 14px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-.grid img{width:100%;height:210px;object-fit:cover;border-radius:14px;cursor:pointer}
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:100;align-items:center;justify-content:center;padding:20px}
-.lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:90vh;border-radius:10px}
-.lightbox-close{position:absolute;top:16px;right:20px;color:#fff;font-size:34px;line-height:1;background:none;border:none;cursor:pointer;padding:6px}
-.videos{display:grid;gap:14px}
-video{width:100%;border-radius:16px;background:#111}
-.amenities{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.card{background:#fff;border-radius:16px;padding:17px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.card b{display:block;font-size:17px;margin-bottom:4px}
-footer{text-align:center;padding:30px 10px;color:#686d67}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.grid img{height:190px}.amenities{grid-template-columns:repeat(3,1fr)}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2e8">
+  <meta name="description" content="RV Resorts — a private villa with a pool, lawn, ground-floor bedrooms, suite, gathering hall and box cricket. Overnight stays for up to 25; gatherings of approximately 150–200, confirmed for the specific event.">
+  <title>RV Resorts | Stay · Party · Gather</title>
+  <link rel="icon" type="image/webp" href="assets/rv-resort/logo.webp">
+  <style>
+    :root {
+      color-scheme: light;
+      --cream: #f5f2e8;
+      --paper: #fffdf7;
+      --forest: #173b2b;
+      --forest-deep: #102b20;
+      --ink: #1c2b22;
+      --muted: #667167;
+      --gold: #c4a96a;
+      --gold-light: #e5d6ad;
+      --line: rgba(23, 59, 43, .14);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--cream);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    button { font: inherit; }
+    a, button { -webkit-tap-highlight-color: transparent; }
+    [id] { scroll-margin-top: 88px; }
+    :focus-visible { outline: 3px solid #a37f38; outline-offset: 4px; }
+    .skip-link {
+      position: fixed; z-index: 100; top: 8px; left: 8px; transform: translateY(-160%);
+      padding: 12px 16px; border-radius: 8px; background: var(--paper); color: var(--forest);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      position: sticky; z-index: 20; top: 0; border-bottom: 1px solid var(--line);
+      background: rgba(245, 242, 232, .96); backdrop-filter: blur(14px);
+    }
+    .header-inner {
+      width: min(1180px, 100% - 36px); min-height: 72px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand img { width: 48px; height: 48px; object-fit: contain; border-radius: 50%; }
+    .brand-copy { display: grid; gap: 2px; }
+    .brand-copy strong { color: var(--forest); font-family: var(--serif); font-size: 18px; letter-spacing: .02em; }
+    .brand-copy small { color: var(--muted); font-size: 9px; letter-spacing: .17em; text-transform: uppercase; }
+    .desktop-nav { display: none; align-items: center; gap: 18px; }
+    .desktop-nav a { color: var(--forest); font-size: 13px; font-weight: 650; text-decoration: none; }
+    .desktop-nav a:hover { color: #8c6d31; }
+    .header-call {
+      display: inline-flex; min-height: 42px; align-items: center; justify-content: center;
+      padding: 0 15px; border-radius: 999px; background: var(--forest); color: #fff;
+      font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap;
+    }
+    .header-call:hover, .button--dark:hover { background: #28543d; }
+
+    .hero {
+      position: relative; isolation: isolate; display: flex; min-height: min(78svh, 820px);
+      align-items: flex-end; overflow: hidden; background: var(--forest-deep); color: white;
+    }
+    .hero-media, .hero-media img, .hero-shade { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; }
+    .hero-media img { object-fit: cover; object-position: 55% 52%; }
+    .hero-shade {
+      background: linear-gradient(90deg, rgba(9, 26, 18, .76) 0%, rgba(9, 26, 18, .46) 52%, rgba(9, 26, 18, .12) 100%),
+                  linear-gradient(0deg, rgba(9, 26, 18, .68) 0%, transparent 76%);
+    }
+    .hero-content { width: min(1180px, 100% - 40px); margin: 0 auto; padding: 68px 0 54px; }
+    .eyebrow {
+      margin: 0 0 14px; color: var(--gold-light); font-size: 11px; font-weight: 750;
+      letter-spacing: .19em; text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    .hero h1 {
+      max-width: 780px; margin-bottom: 14px; font-family: var(--serif);
+      font-size: clamp(48px, 12vw, 92px); font-weight: 400; letter-spacing: -.055em;
+      line-height: .98; text-wrap: balance;
+    }
+    .hero-copy { max-width: 550px; margin-bottom: 25px; color: rgba(255,255,255,.9); font-size: 16px; line-height: 1.65; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .button {
+      display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 9px;
+      padding: 0 18px; border: 1px solid transparent; border-radius: 999px;
+      font-size: 13px; font-weight: 750; text-decoration: none; transition: transform .2s ease, background .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button svg, .action-dock svg { width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .button--gold { background: var(--gold-light); color: var(--forest-deep); }
+    .button--gold:hover { background: #f0e3bd; }
+    .button--glass { border-color: rgba(255,255,255,.54); background: rgba(255,255,255,.12); color: white; backdrop-filter: blur(8px); }
+    .button--glass:hover { background: rgba(255,255,255,.22); }
+    .button--dark { background: var(--forest); color: white; }
+    .button--light { border-color: var(--line); background: var(--paper); color: var(--forest); }
+    .button--light:hover { background: #f2eee1; }
+
+    .occasion-band { background: var(--forest); color: white; }
+    .occasion-inner {
+      width: min(1180px, 100% - 36px); margin: 0 auto; padding: 22px 0;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .capacity-stats { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
+    .capacity { display: flex; align-items: baseline; gap: 9px; white-space: nowrap; }
+    .capacity strong { color: var(--gold-light); font-family: var(--serif); font-size: 25px; font-weight: 400; }
+    .capacity span { color: rgba(255,255,255,.76); font-size: 12px; }
+    .occasion-side { display: grid; gap: 9px; }
+    .occasion-list { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+    .occasion-list li { padding: 7px 10px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; color: rgba(255,255,255,.9); font-size: 11px; }
+    .capacity-note { margin: 0; color: rgba(255,255,255,.62); font-size: 11px; line-height: 1.5; }
+
+    .section { padding: 70px 0; }
+    .section-inner { width: min(1120px, 100% - 36px); margin: 0 auto; }
+    .section-heading { max-width: 650px; margin-bottom: 28px; }
+    .section-heading .eyebrow { color: #8c713d; }
+    .section-heading h2 { margin-bottom: 10px; color: var(--forest); font-family: var(--serif); font-size: clamp(34px, 8vw, 54px); font-weight: 400; letter-spacing: -.04em; line-height: 1.05; text-wrap: balance; }
+    .section-heading p { margin-bottom: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+    .spaces-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .space-card {
+      overflow: hidden; border: 1px solid var(--line); border-radius: 18px;
+      background: var(--paper); box-shadow: 0 12px 32px rgba(22, 48, 34, .055);
+    }
+    .space-card__media {
+      position: relative; display: block; overflow: hidden; width: 100%;
+      aspect-ratio: 1.42 / 1; background: #d8ddd4;
+    }
+    .space-card__media--single img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .space-card:hover .space-card__media img { transform: scale(1.025); }
+    .space-card__media--quad {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      gap: 3px; background: #d8ddd4;
+    }
+    .space-card__media--quad figure { position: relative; min-width: 0; min-height: 0; margin: 0; overflow: hidden; background: #d8ddd4; }
+    .space-card__media--quad img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .space-card__media--quad figcaption {
+      position: absolute; right: 0; bottom: 0; left: 0; padding: 16px 7px 6px;
+      background: linear-gradient(transparent, rgba(13, 31, 22, .76)); color: #fff;
+      font-size: 9px; font-weight: 700; line-height: 1.2;
+    }
+    .space-card__body { display: flex; min-height: 166px; flex-direction: column; padding: 18px 18px 20px; }
+    .space-card__body .eyebrow { margin-bottom: 7px; color: #8c713d; font-size: 9px; }
+    .space-card__body h3 { margin-bottom: 7px; font-family: var(--serif); font-size: 25px; font-weight: 400; line-height: 1.12; }
+    .space-card__body h3 a { color: var(--forest); text-decoration: none; }
+    .space-card__body h3 a:hover { color: #8c6d31; }
+    .space-card__body p { margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .space-card__media .space-card__inset {
+      position: absolute; right: 10px; bottom: 10px; width: 32%; height: auto; aspect-ratio: 1;
+      object-fit: cover; border: 2px solid rgba(255, 253, 247, .92); border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(9, 26, 18, .26);
+    }
+    .space-card__link { display: inline-flex; align-items: center; gap: 5px; margin-top: auto; padding-top: 12px; color: var(--forest); font-size: 12px; font-weight: 750; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .space-card__link:hover { color: #8c6d31; }
+    .spaces-more { margin: 20px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .spaces-more a { color: var(--forest); font-weight: 750; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    .gatherings { padding: 66px 0; background: var(--forest-deep); color: white; }
+    .gatherings-inner { width: min(1120px, 100% - 36px); margin: 0 auto; display: grid; gap: 24px; }
+    .gatherings .eyebrow { color: var(--gold-light); }
+    .gatherings h2 { max-width: 680px; margin-bottom: 9px; font-family: var(--serif); font-size: clamp(36px, 8vw, 58px); font-weight: 400; letter-spacing: -.04em; line-height: 1.05; }
+    .nowrap { white-space: nowrap; }
+    .gatherings p { max-width: 560px; margin-bottom: 0; color: rgba(255,255,255,.72); font-size: 14px; line-height: 1.7; }
+    .gatherings .capacity-note { margin-top: 10px; color: rgba(255,255,255,.62); font-size: 12px; }
+    .gathering-mark { color: var(--gold-light); font-family: var(--serif); font-size: clamp(42px, 12vw, 96px); line-height: .85; letter-spacing: -.04em; }
+
+    .property-section { padding: 66px 0; }
+    .property-section--tint { background: #efece1; }
+    .property-heading { max-width: 720px; margin-bottom: 26px; }
+    .property-heading .eyebrow { margin-bottom: 8px; color: #8c713d; font-size: 10px; }
+    .property-heading h2 { margin-bottom: 10px; color: var(--forest); font-family: var(--serif); font-size: clamp(31px, 6.5vw, 46px); font-weight: 400; letter-spacing: -.04em; line-height: 1.05; text-wrap: balance; }
+    .property-heading p { margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+    .photo-grid { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 12px; }
+    .media-tile {
+      position: relative; display: block; overflow: hidden; width: 100%; padding: 0;
+      border: 0; border-radius: 14px; background: #d8ddd4; text-align: left; cursor: zoom-in;
+    }
+    .media-tile--portrait { aspect-ratio: 4 / 5; }
+    .media-tile--landscape { aspect-ratio: 16 / 10; }
+    .media-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .media-tile:hover img { transform: scale(1.03); }
+    .media-tile__caption {
+      position: absolute; right: 0; bottom: 0; left: 0; padding: 26px 11px 10px;
+      background: linear-gradient(transparent, rgba(13, 31, 22, .78)); color: #fff;
+      font-size: 11px; font-weight: 650; letter-spacing: .015em; line-height: 1.35;
+    }
+    .photo-grid.photo-grid--pair { max-width: 760px; margin-inline: auto; }
+    .photo-grid.photo-grid--duo { max-width: 1000px; margin-inline: auto; }
+    .photo-grid.photo-grid--solo { grid-template-columns: minmax(0, 1fr); max-width: 820px; margin-inline: auto; }
+    .photo-grid.photo-grid--solo .media-tile--landscape,
+    .photo-grid.photo-grid--duo .media-tile--landscape { grid-column: auto; }
+    .photo-grid.photo-grid--solo .media-tile { aspect-ratio: 3 / 2; }
+    .photo-grid.photo-grid--duo .media-tile { aspect-ratio: 3 / 2; }
+    .photo-grid.photo-grid--views { grid-template-columns: minmax(0, 1fr); max-width: 1000px; margin-inline: auto; }
+    .photo-grid.photo-grid--views .media-tile { grid-column: auto; aspect-ratio: 16 / 10; }
+    .photo-pair {
+      grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr);
+      gap: 12px; width: 100%; max-width: 760px; margin-inline: auto;
+    }
+
+    .video-block { margin-top: 30px; }
+    .video-block__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 18px; margin-bottom: 13px; }
+    .video-block__head h3 { margin: 0; color: var(--forest); font-family: var(--serif); font-size: 24px; font-weight: 400; }
+    .video-block__head p { margin: 0; color: var(--muted); font-size: 12px; }
+    .video-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .video-solo { max-width: 880px; margin-inline: auto; }
+
+    .video-card {
+      position: relative; display: block; overflow: hidden; width: 100%; padding: 0;
+      border: 0; border-radius: 16px; aspect-ratio: 9 / 16;
+      background: var(--forest-deep); color: #fff; text-align: left; cursor: pointer;
+    }
+    .video-card--landscape { aspect-ratio: 16 / 9; }
+    .video-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .9; transition: transform .5s ease, opacity .25s ease; }
+    .video-card:hover img { transform: scale(1.03); opacity: .97; }
+    .video-card__shade {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(0,0,0,.02) 35%, rgba(0,0,0,.62) 100%);
+    }
+    .play-button {
+      position: absolute; top: 50%; left: 50%; display: grid; width: 56px; height: 56px;
+      transform: translate(-50%, -50%); place-items: center; border: 1px solid rgba(255,255,255,.7);
+      border-radius: 50%; background: rgba(16,43,32,.74); backdrop-filter: blur(6px);
+    }
+    .play-button svg { width: 18px; height: 18px; fill: white; }
+    .video-card__label {
+      position: absolute; right: 14px; bottom: 14px; left: 14px;
+      font-family: var(--serif); font-size: 20px; line-height: 1.15; text-shadow: 0 1px 8px rgba(0,0,0,.4);
+    }
+    .video-card--landscape .video-card__label { font-size: 22px; }
+    .video-card__label small {
+      display: block; margin-top: 4px; color: rgba(255,255,255,.78);
+      font-family: var(--sans); font-size: 10px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .video-feature {
+      display: grid; gap: 22px; max-width: 880px; margin: 28px auto 0; padding: 18px;
+      border: 1px solid var(--line); border-radius: 20px; background: rgba(255, 253, 247, .55);
+    }
+    .video-feature .video-card { width: 100%; max-width: 340px; justify-self: center; }
+    .video-feature .video-player-frame { width: 100%; max-width: 340px; justify-self: center; }
+    .video-feature__copy h3 { margin-bottom: 7px; color: var(--forest); font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.12; }
+    .video-feature__copy p { margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .video-feature__meta { display: inline-block; margin-top: 11px; color: #8c713d; font-size: 10px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    .video-feature__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+    .video-feature__tags span { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255, 255, 255, .55); color: var(--forest); font-size: 10px; font-weight: 650; line-height: 1.2; }
+    .video-player-frame {
+      position: relative; overflow: hidden; width: 100%; border-radius: 16px; background: #101812;
+    }
+    .video-player-frame--portrait { aspect-ratio: 9 / 16; }
+    .video-player-frame--landscape { aspect-ratio: 16 / 9; }
+    .video-player-frame video { display: block; width: 100%; height: 100%; object-fit: contain; background: #101812; }
+    .video-error {
+      position: absolute; top: 50%; right: 18px; left: 18px; transform: translateY(-50%);
+      margin: 0; color: #fff; text-align: center; font-size: 13px; line-height: 1.5;
+    }
+
+    .contact-section { padding: 70px 0 82px; }
+    .contact-panel {
+      display: grid; gap: 25px; padding: 25px; border: 1px solid var(--line);
+      border-radius: 22px; background: var(--paper);
+    }
+    .contact-panel h2 { margin-bottom: 9px; color: var(--forest); font-family: var(--serif); font-size: clamp(34px, 8vw, 50px); font-weight: 400; letter-spacing: -.04em; line-height: 1.04; }
+    .contact-panel p { margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+    .contact-phone { display: inline-block; margin-top: 13px; color: var(--forest); font-size: 19px; font-weight: 700; text-decoration: none; }
+    .contact-phone:hover { text-decoration: underline; }
+    .instagram-icon { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    footer { display: grid; justify-items: center; gap: 8px; padding: 23px 18px 100px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 11px; }
+    .footer-brand { color: var(--forest); font-family: var(--serif); font-size: 16px; }
+    .instagram-footer { display: inline-flex; align-items: center; gap: 7px; color: var(--forest); font-size: 12px; font-weight: 700; text-decoration: none; }
+    .instagram-footer:hover { color: #8c6d31; }
+
+    .action-dock {
+      position: fixed; z-index: 30; right: 0; bottom: 0; left: 0; display: grid;
+      grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--line); background: rgba(255,253,247,.97); backdrop-filter: blur(12px);
+    }
+    .action-dock a {
+      display: flex; min-height: 48px; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+      border-radius: 10px; color: var(--forest); font-size: 10px; font-weight: 750; text-decoration: none;
+    }
+    .action-dock a:hover { background: var(--cream); }
+    .action-dock svg { width: 19px; height: 19px; }
+
+    dialog.gallery-dialog {
+      position: fixed; inset: 0; width: 100vw; height: 100svh; max-width: none; max-height: none;
+      margin: 0; padding: 22px; border: 0; border-radius: 0; background: #111b15; color: white;
+    }
+    dialog.gallery-dialog[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    dialog.gallery-dialog::backdrop { background: rgba(7, 17, 11, .94); backdrop-filter: blur(5px); }
+    .dialog-close {
+      position: absolute; z-index: 1; top: 18px; right: 18px; display: grid; width: 42px; height: 42px;
+      place-items: center; border: 1px solid rgba(255,255,255,.4); border-radius: 50%;
+      background: rgba(16,43,32,.82); color: white; font-size: 24px; cursor: pointer;
+    }
+    .dialog-close:hover { background: rgba(255,255,255,.2); }
+    .dialog-image { display: block; max-width: 100%; max-height: calc(100svh - 130px); margin: 0 auto; border-radius: 10px; object-fit: contain; }
+    .dialog-caption { min-height: 24px; margin: 12px 0 0; color: rgba(255,255,255,.84); text-align: center; font-size: 13px; }
+
+    @media (max-width: 419px) {
+      .brand-copy small { display: none; }
+      .brand-copy strong { font-size: 17px; white-space: nowrap; }
+      .header-call { min-height: 40px; padding: 0 12px; font-size: 12px; }
+    }
+
+    @media (max-width: 349px) {
+      .header-call { display: none; }
+    }
+
+    @media (min-width: 560px) {
+      .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-grid .media-tile--landscape { grid-column: span 2; }
+      .photo-grid.photo-grid--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-grid.photo-grid--duo { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-grid.photo-grid--views { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .photo-grid.photo-grid--views .media-tile { grid-column: auto; }
+      .photo-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .video-grid--portrait { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 700px) {
+      body { padding-bottom: 90px; }
+      .header-inner { min-height: 80px; }
+      .brand img { width: 54px; height: 54px; }
+      .desktop-nav { display: flex; }
+      .header-call { min-height: 44px; padding: 0 19px; }
+      .hero { min-height: min(82svh, 900px); }
+      .hero-content { width: min(1180px, 100% - 64px); padding-bottom: 76px; }
+      .hero-copy { font-size: 18px; }
+      .occasion-inner { flex-direction: row; align-items: flex-end; justify-content: space-between; gap: 30px; padding: 22px 0; }
+      .occasion-side { justify-items: end; }
+      .occasion-list { justify-content: flex-end; }
+      .section { padding: 92px 0; }
+      .section-inner { width: min(1120px, 100% - 64px); }
+      .section-heading { margin-bottom: 36px; }
+      .spaces-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .space-card__body { min-height: 176px; padding: 21px; }
+      .space-card__body h3 { font-size: 28px; }
+      .space-card__body p { font-size: 14px; }
+      .gatherings { padding: 88px 0; }
+      .gatherings-inner { width: min(1120px, 100% - 64px); grid-template-columns: 1fr auto; align-items: center; gap: 40px; }
+      .gathering-mark { padding-right: 14px; }
+      .property-section { padding: 84px 0; }
+      .property-heading { margin-bottom: 32px; }
+      .video-feature { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); align-items: center; gap: 36px; padding: 24px; }
+      .video-feature .video-card, .video-feature .video-player-frame { justify-self: start; }
+      .contact-section { padding: 92px 0; }
+      .contact-panel { grid-template-columns: 1fr auto; align-items: center; gap: 35px; padding: 38px; }
+      footer { padding-bottom: 26px; }
+      .action-dock {
+        right: 50%; bottom: 16px; left: auto; width: auto; transform: translateX(50%);
+        gap: 2px; padding: 5px; border: 1px solid var(--line); border-radius: 999px;
+        background: var(--paper); box-shadow: 0 16px 40px rgba(22, 48, 34, .18);
+      }
+      .action-dock a {
+        min-height: 38px; flex-direction: row; gap: 7px; padding: 0 15px;
+        border-radius: 999px; font-size: 12px;
+      }
+      .action-dock svg { width: 16px; height: 16px; }
+    }
+
+    @media (min-width: 1000px) {
+      .desktop-nav { gap: 25px; }
+      .spaces-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+      .photo-grid.photo-grid--views { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .video-grid--portrait { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      :root { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
 </head>
 <body>
-<section class="hero"><div><h1>RV Resort</h1><p>Thinking of a getaway? Come explore your private escape.</p></div></section>
-<main class="wrap">
-<div class="cta">
-<a class="btn alt" href="tel:8367448866">📞 Call 8367448866</a>
-<a class="btn" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&g_st=ic">📍 Get Directions</a>
-</div>
-<h2>✨ Resort Highlights</h2>
-<div class="amenities">
-<div class="card">🏊 <b>Private Swimming Pool</b>Relax and enjoy your own pool.</div>
-<div class="card">🌧️ <b>Rain Dance</b>Fun for groups and celebrations.</div>
-<div class="card">🛏️ <b>Private Suite Room</b>A private space to unwind.</div>
-<div class="card">👥 <b>Accommodation for 15–20 People</b>Ideal for group getaways.</div>
-<div class="card">🛁 <b>Bathtub</b>A relaxing touch for your stay.</div>
-<div class="card">🎉 <b>Large Hall for Gatherings</b>Perfect for larger groups and events.</div>
-<div class="card">🌿 <b>Private Outdoor Spaces</b>Enjoy the open surroundings.</div>
-</div>
-<h2>📸 Explore RV Resort</h2>
-<div class="grid" id="gallery"><img src="assets/photo_01.jpeg" alt="RV Resort photo 1" loading="lazy">
-<img src="assets/photo_02.jpeg" alt="RV Resort photo 2" loading="lazy">
-<img src="assets/photo_03.jpeg" alt="RV Resort photo 3" loading="lazy">
-<img src="assets/photo_04.jpeg" alt="RV Resort photo 4" loading="lazy">
-<img src="assets/photo_05.jpeg" alt="RV Resort photo 5" loading="lazy">
-<img src="assets/photo_06.jpeg" alt="RV Resort photo 6" loading="lazy">
-<img src="assets/photo_07.jpeg" alt="RV Resort photo 7" loading="lazy">
-<img src="assets/photo_08.jpeg" alt="RV Resort photo 8" loading="lazy">
-<img src="assets/photo_09.jpeg" alt="RV Resort photo 9" loading="lazy">
-<img src="assets/photo_10.jpeg" alt="RV Resort photo 10" loading="lazy">
-<img src="assets/photo_11.jpeg" alt="RV Resort photo 11" loading="lazy">
-<img src="assets/photo_12.jpeg" alt="RV Resort photo 12" loading="lazy">
-<img src="assets/photo_13.jpeg" alt="RV Resort photo 13" loading="lazy">
-<img src="assets/photo_14.jpeg" alt="RV Resort photo 14" loading="lazy">
-<img src="assets/photo_15.jpeg" alt="RV Resort photo 15" loading="lazy">
-<img src="assets/photo_16.jpeg" alt="RV Resort photo 16" loading="lazy">
-<img src="assets/photo_17.jpeg" alt="RV Resort photo 17" loading="lazy">
-<img src="assets/photo_18.jpeg" alt="RV Resort photo 18" loading="lazy"></div>
-<h2>🎥 Watch the Resort</h2>
-<div class="videos"><video controls playsinline preload="metadata"><source src="assets/video_01.mp4" type="video/mp4"></video>
-<video controls playsinline preload="metadata"><source src="assets/video_02.mp4" type="video/mp4"></video></div>
-<h2>📍 Find Us</h2>
-<a class="btn alt" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&entry=gps&shh=CAE&lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&g_st=ic">Open Location in Google Maps</a>
-<h2>📞 Contact</h2>
-<p style="font-size:20px"><a href="tel:8367448866">8367448866</a></p>
-</main>
-<footer>RV Resort · Temporary showcase</footer>
-<div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button><img id="lightboxImg" src="" alt=""></div>
-<script>
-var gallery=document.getElementById('gallery'),lightbox=document.getElementById('lightbox'),lightboxImg=document.getElementById('lightboxImg');
-gallery.addEventListener('click',function(e){
-if(e.target.tagName!=='IMG')return;
-lightboxImg.src=e.target.src;
-lightboxImg.alt=e.target.alt;
-lightbox.classList.add('open');
-});
-function closeLightbox(){lightbox.classList.remove('open');lightboxImg.src='';}
-document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
-lightbox.addEventListener('click',function(e){if(e.target===lightbox)closeLightbox();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
-</script>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="RV Resorts home">
+        <img src="assets/rv-resort/logo.webp" alt="" width="400" height="400">
+        <span class="brand-copy"><strong>RV Resorts</strong><small>Stay · Party · Gather</small></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#spaces">The resort</a>
+        <a href="#tour">The villa</a>
+        <a href="#occasions">Occasions</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="header-call" href="tel:8367448866">Call 8367448866</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <picture class="hero-media">
+        <source media="(min-width: 700px)" srcset="assets/rv-resort/hero-cover-960.webp 960w, assets/rv-resort/hero-cover-1448.webp 1448w" sizes="100vw">
+        <img src="assets/rv-resort/hero-cover-mobile-640.webp" srcset="assets/rv-resort/hero-cover-mobile-640.webp 640w, assets/rv-resort/hero-cover-mobile-850.webp 850w" sizes="100vw" width="850" height="996" alt="RV Resorts villa, swimming pool and lawn seen from the pergola" fetchpriority="high">
+      </picture>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="eyebrow">RV Resorts · Stay · Party · Gather</p>
+        <h1 id="hero-title">Stay. Party.<br>Gather.</h1>
+        <p class="hero-copy">A private villa with a pool, lawn and gathering spaces — made for staying and celebrating together.</p>
+        <div class="hero-actions">
+          <a class="button button--gold" href="tel:8367448866">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v4c0 1-1 2-2 2C10 20 4 14 3 6c0-1 1-2 2-2Z"/></svg>
+            Call 8367448866
+          </a>
+          <a class="button button--glass" href="https://wa.me/918367448866" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z"/><path d="M9 8.5c.4 2 2 3.6 4.5 4.5"/></svg>
+            WhatsApp
+          </a>
+          <a class="button button--glass" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&amp;entry=gps&amp;shh=CAE&amp;lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&amp;g_st=ic" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            Directions
+          </a>
+          <a class="button button--glass" href="https://www.instagram.com/rv_resorts/" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+            @rv_resorts
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="occasion-band" id="occasions" aria-label="Capacity and occasions">
+      <div class="occasion-inner">
+        <div class="capacity-stats">
+          <div class="capacity"><strong>Up to 25</strong><span>overnight guests</span></div>
+          <div class="capacity"><strong>150–200</strong><span>gathering guests*</span></div>
+        </div>
+        <div class="occasion-side">
+          <ul class="occasion-list">
+            <li>Haldi / Sangeet</li>
+            <li>Birthdays</li>
+            <li>Family gatherings</li>
+            <li>Corporate meetings</li>
+          </ul>
+          <p class="capacity-note">*Gathering capacity is confirmed for the specific event and layout.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="spaces">
+      <div class="section-inner">
+        <div class="section-heading">
+          <p class="eyebrow">The resort</p>
+          <h2>Spaces for a stay or a celebration</h2>
+          <p>Explore the outdoor areas, rooms and gathering spaces at RV Resorts.</p>
+        </div>
+
+        <div class="spaces-grid">
+          <article class="space-card">
+            <a class="space-card__media space-card__media--single" href="#pool" aria-label="Explore the pool, rain dance and lawn">
+              <img src="assets/rv-resort/pool-640.webp" srcset="assets/rv-resort/pool-640.webp 640w, assets/rv-resort/pool-1200.webp 960w" sizes="(max-width: 699px) 100vw, (max-width: 999px) 50vw, 33vw" width="960" height="1280" alt="Outdoor swimming pool with the rain-dance wall behind it" loading="lazy" decoding="async">
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">01 · Outdoors</p>
+              <h3><a href="#pool">Pool, rain dance &amp; lawn</a></h3>
+              <p>The outdoor pool, rain-dance wall and striped lawn, with three short clips.</p>
+              <a class="space-card__link" href="#pool">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="space-card">
+            <a class="space-card__media space-card__media--quad" href="#ground-floor" aria-label="Explore the ground floor">
+              <figure>
+                <img src="assets/rv-resort/living-640.webp" width="1200" height="668" alt="Ground-floor living area with sofas" loading="lazy" decoding="async">
+                <figcaption>Living</figcaption>
+              </figure>
+              <figure>
+                <img src="assets/rv-resort/kitchen-640.webp" width="1200" height="676" alt="Kitchen with blue cabinets" loading="lazy" decoding="async">
+                <figcaption>Kitchen</figcaption>
+              </figure>
+              <figure>
+                <img src="assets/rv-resort/gallery-bedroom-left-640.webp" width="1200" height="1600" alt="Left bedroom with a green accent wall" loading="lazy" decoding="async">
+                <figcaption>Left bedroom</figcaption>
+              </figure>
+              <figure>
+                <img src="assets/rv-resort/gallery-bedroom-right-640.webp" width="1200" height="1600" alt="Right bedroom with a floral bed" loading="lazy" decoding="async">
+                <figcaption>Right bedroom</figcaption>
+              </figure>
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">02 · Ground floor</p>
+              <h3><a href="#ground-floor">Ground floor</a></h3>
+              <p>Living area, kitchen, TV corner, washroom and both ground-floor bedrooms.</p>
+              <a class="space-card__link" href="#ground-floor">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="space-card">
+            <a class="space-card__media space-card__media--single" href="#suite" aria-label="Explore the suite and bathroom">
+              <img src="assets/rv-resort/suite-bedroom-640.webp" width="1200" height="800" alt="Long suite bedroom with a bed at the far end" loading="lazy" decoding="async">
+              <img class="space-card__inset" src="assets/rv-resort/suite-bath-640.webp" width="640" height="360" alt="Suite bathroom with a bathtub" loading="lazy" decoding="async">
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">03 · First floor</p>
+              <h3><a href="#suite">Suite &amp; bathroom</a></h3>
+              <p>The suite bedroom and its bathroom, plus a room walk-through.</p>
+              <a class="space-card__link" href="#suite">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="space-card">
+            <a class="space-card__media space-card__media--single" href="#gathering-hall" aria-label="Explore the large gathering hall">
+              <img src="assets/rv-resort/hall-640.webp" width="1200" height="800" alt="Open indoor gathering hall with a marble floor" loading="lazy" decoding="async">
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">04 · Gatherings</p>
+              <h3><a href="#gathering-hall">Large gathering hall</a></h3>
+              <p>The open indoor hall for celebrations and events, with its walk-through.</p>
+              <a class="space-card__link" href="#gathering-hall">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="space-card">
+            <a class="space-card__media space-card__media--single" href="#box-cricket" aria-label="Explore the box cricket court">
+              <img src="assets/rv-resort/box-cricket-640.webp" width="1200" height="769" alt="Netted box-cricket court at RV Resorts" loading="lazy" decoding="async">
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">05 · Outdoors</p>
+              <h3><a href="#box-cricket">Box cricket</a></h3>
+              <p>The netted box-cricket court on the property.</p>
+              <a class="space-card__link" href="#box-cricket">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="space-card">
+            <a class="space-card__media space-card__media--single" href="#views" aria-label="Explore views and balconies">
+              <img src="assets/rv-resort/hero-cover-960.webp" width="1448" height="814" alt="Pergola, pool and villa exterior" loading="lazy" decoding="async">
+            </a>
+            <div class="space-card__body">
+              <p class="eyebrow">06 · Outdoors</p>
+              <h3><a href="#views">Views &amp; balconies</a></h3>
+              <p>Pergola, poolside views, the balcony and the villa exterior.</p>
+              <a class="space-card__link" href="#views">Explore this space <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
+
+        <p class="spaces-more">The full property tour also includes the <a href="#first-floor-hall">first-floor hall</a>.</p>
+      </div>
+    </section>
+
+    <section class="gatherings" aria-labelledby="gatherings-title">
+      <div class="gatherings-inner">
+        <div>
+          <p class="eyebrow">Bring everyone together</p>
+          <h2 id="gatherings-title">Stay for 25. Gather <span class="nowrap">150–200</span>.</h2>
+          <p>RV Resorts is suited to Haldi and Sangeet, birthdays, family gatherings and corporate meetings.</p>
+          <p class="capacity-note">Gathering capacity is confirmed for the specific event.</p>
+        </div>
+        <span class="gathering-mark" aria-hidden="true">150–200</span>
+      </div>
+    </section>
+
+    <div class="tour" id="tour">
+      <section class="property-section" id="pool" aria-labelledby="pool-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">01 · Outdoors</p>
+            <h2 id="pool-title">Pool, rain dance &amp; lawn</h2>
+            <p>The outdoor pool, rain-dance wall and striped lawn sit together at the front of the villa.</p>
+          </header>
+
+          <div class="photo-grid photo-grid--pair">
+            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/pool-1200.webp" data-alt="Outdoor swimming pool with the blue rain-dance wall behind it" data-caption="Pool &amp; rain-dance wall">
+              <img src="assets/rv-resort/pool-640.webp" srcset="assets/rv-resort/pool-640.webp 640w, assets/rv-resort/pool-1200.webp 960w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="960" height="1280" alt="Swimming pool with the blue rain-dance feature wall behind it" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Pool &amp; rain-dance wall</span>
+            </button>
+            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/lawn-1200.webp" data-alt="Striped lawn beside the RV Resorts villa" data-caption="Striped lawn beside the villa">
+              <img src="assets/rv-resort/lawn-640.webp" srcset="assets/rv-resort/lawn-640.webp 640w, assets/rv-resort/lawn-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Striped lawn beside the villa at dusk" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Striped lawn beside the villa</span>
+            </button>
+          </div>
+
+          <div class="video-block">
+            <div class="video-block__head">
+              <h3>Video tours</h3>
+              <p>Tap a clip to load and play it.</p>
+            </div>
+            <div class="video-grid video-grid--portrait">
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/lawn-tour-1.mp4" data-video-poster="assets/rv-resort/lawn-tour-1-poster.webp" data-video-label="Lawn tour 1" aria-label="Play the first lawn tour video, 13 seconds">
+                <img src="assets/rv-resort/lawn-tour-1-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Lawn tour · 1<small>0:13 · lawn and villa</small></span>
+              </button>
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/lawn-tour-2.mp4" data-video-poster="assets/rv-resort/lawn-tour-2-poster.webp" data-video-label="Lawn tour 2" aria-label="Play the second lawn tour video, 18 seconds">
+                <img src="assets/rv-resort/lawn-tour-2-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Lawn tour · 2<small>0:18 · lawn and entrance</small></span>
+              </button>
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/pool-lawn-view.mp4" data-video-poster="assets/rv-resort/pool-lawn-poster.webp" data-video-label="Pool and lawn view" aria-label="Play the pool and lawn view video, 14 seconds">
+                <img src="assets/rv-resort/pool-lawn-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Pool &amp; lawn view<small>0:14 · from the pergola</small></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section property-section--tint" id="ground-floor" aria-labelledby="ground-floor-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">02 · Ground floor</p>
+            <h2 id="ground-floor-title">Ground floor</h2>
+            <p>The living area, kitchen and TV corner open into each other, with both bedrooms and a washroom on the same level.</p>
+          </header>
+
+          <div class="photo-grid">
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/living-1200.webp" data-alt="Ground-floor living area with tan sofas and blue kitchen cabinets" data-caption="Living area">
+              <img src="assets/rv-resort/living-640.webp" srcset="assets/rv-resort/living-640.webp 640w, assets/rv-resort/living-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="668" alt="Living area with tan sofas, a fish tank and blue kitchen cabinets" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Living area</span>
+            </button>
+            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-left-1200.webp" data-alt="Left bedroom with a green accent wall and colourful bedding" data-caption="Left bedroom">
+              <img src="assets/rv-resort/gallery-bedroom-left-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-640.webp 640w, assets/rv-resort/gallery-bedroom-left-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Left bedroom with a green accent wall and colourful striped bedding" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Left bedroom</span>
+            </button>
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/kitchen-1200.webp" data-alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" data-caption="Kitchen">
+              <img src="assets/rv-resort/kitchen-640.webp" srcset="assets/rv-resort/kitchen-640.webp 640w, assets/rv-resort/kitchen-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="676" alt="Kitchen with blue cabinets, a breakfast counter and pendant lights" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Kitchen</span>
+            </button>
+            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-right-1200.webp" data-alt="Right bedroom with a floral bed and pale blue walls" data-caption="Right bedroom">
+              <img src="assets/rv-resort/gallery-bedroom-right-640.webp" srcset="assets/rv-resort/gallery-bedroom-right-640.webp 640w, assets/rv-resort/gallery-bedroom-right-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Right bedroom with a floral bed and pale blue walls" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Right bedroom</span>
+            </button>
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/gallery-tv-1200.webp" data-alt="TV corner with a wooden wall panel and two Buddha statues" data-caption="TV corner">
+              <img src="assets/rv-resort/gallery-tv-640.webp" srcset="assets/rv-resort/gallery-tv-640.webp 640w, assets/rv-resort/gallery-tv-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1200" height="676" alt="Television and soundbar on a wooden wall panel with two Buddha statues" loading="lazy" decoding="async">
+              <span class="media-tile__caption">TV corner</span>
+            </button>
+            <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/bathroom-1200.webp" data-alt="Washroom with a toilet, shower and stone-tiled walls" data-caption="Washroom">
+              <img src="assets/rv-resort/bathroom-640.webp" srcset="assets/rv-resort/bathroom-640.webp 640w, assets/rv-resort/bathroom-1200.webp 1036w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1036" height="1840" alt="Washroom with a toilet, shower and stone-tiled walls" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Washroom</span>
+            </button>
+            <div class="photo-pair">
+              <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/gallery-bedroom-left-2-1200.webp" data-alt="Left bedroom, second view, with a grey feature wall and colourful bedding" data-caption="Left bedroom · second view">
+                <img src="assets/rv-resort/gallery-bedroom-left-2-640.webp" srcset="assets/rv-resort/gallery-bedroom-left-2-640.webp 640w, assets/rv-resort/gallery-bedroom-left-2-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Left bedroom with a grey feature wall and colourful bedding" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Left bedroom · second view</span>
+              </button>
+              <button class="media-tile media-tile--portrait" type="button" data-full="assets/rv-resort/suite-a-1200.webp" data-alt="Right bedroom, second view, with a grey feature wall and floral bedding" data-caption="Right bedroom · second view">
+                <img src="assets/rv-resort/suite-a-640.webp" srcset="assets/rv-resort/suite-a-640.webp 640w, assets/rv-resort/suite-a-1200.webp 1200w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 30vw" width="1200" height="1600" alt="Right bedroom with a grey feature wall and floral bedding" loading="lazy" decoding="async">
+                <span class="media-tile__caption">Right bedroom · second view</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="video-feature">
+            <button class="video-card" type="button" data-video-src="assets/rv-resort/video/ground-floor.mp4" data-video-poster="assets/rv-resort/ground-floor-poster.webp" data-video-label="Ground-floor tour" aria-label="Play the ground-floor tour video, 43 seconds">
+              <img src="assets/rv-resort/ground-floor-poster.webp" width="600" height="1067" alt="" loading="lazy" decoding="async">
+              <span class="video-card__shade" aria-hidden="true"></span>
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+              <span class="video-card__label">Ground-floor tour<small>0:43 · living area to bedrooms</small></span>
+            </button>
+            <div class="video-feature__copy">
+              <h3>Walk through the ground floor</h3>
+              <p>The 43-second clip moves from the living area through the passage and into the bedrooms.</p>
+              <span class="video-feature__meta">Portrait clip · 0:43</span>
+              <div class="video-feature__tags" aria-label="Ground-floor spaces in the clip">
+                <span>Living area</span><span>Kitchen</span><span>TV corner</span><span>Washroom</span><span>2 bedrooms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section" id="first-floor-hall" aria-labelledby="first-floor-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">03 · First floor</p>
+            <h2 id="first-floor-title">First-floor hall</h2>
+            <p>A glass-floored landing links the upstairs rooms and the suite. The short clip shows the hall and its doors; the suite itself is in the next section.</p>
+          </header>
+
+          <div class="video-feature">
+            <button class="video-card" type="button" data-video-src="assets/rv-resort/video/first-floor-hall.mp4" data-video-poster="assets/rv-resort/first-floor-hall-poster.webp" data-video-label="First-floor hall tour" aria-label="Play the first-floor hall video, 18 seconds">
+              <img src="assets/rv-resort/first-floor-hall-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+              <span class="video-card__shade" aria-hidden="true"></span>
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+              <span class="video-card__label">First-floor hall<small>0:18 · landing and glass floor</small></span>
+            </button>
+            <div class="video-feature__copy">
+              <h3>Upstairs landing</h3>
+              <p>A quick look across the hall, its glass floor and the doors to the upstairs rooms.</p>
+              <span class="video-feature__meta">Portrait clip · 0:18</span>
+              <div class="video-feature__tags" aria-label="What the first-floor clip shows">
+                <span>Glass-floor landing</span><span>Upstairs rooms</span><span>Suite access</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section property-section--tint" id="suite" aria-labelledby="suite-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">04 · First floor</p>
+            <h2 id="suite-title">Suite &amp; bathroom</h2>
+            <p>The suite bedroom and its bathroom are shown together, with the room walk-through below.</p>
+          </header>
+
+          <div class="photo-grid photo-grid--duo">
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/suite-bedroom-1200.webp" data-alt="Long suite bedroom with a bed at the far end and floor-to-ceiling curtains" data-caption="Suite bedroom">
+              <img src="assets/rv-resort/suite-bedroom-640.webp" srcset="assets/rv-resort/suite-bedroom-640.webp 640w, assets/rv-resort/suite-bedroom-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 50vw" width="1200" height="800" alt="Long suite bedroom with a bed at the far end and floor-to-ceiling curtains" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Suite bedroom</span>
+            </button>
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/suite-bath-1200.webp" data-alt="Suite bathroom with a bathtub, glass shower and vanity" data-caption="Suite bathroom">
+              <img src="assets/rv-resort/suite-bath-640.webp" srcset="assets/rv-resort/suite-bath-640.webp 640w, assets/rv-resort/suite-bath-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 50vw" width="1200" height="676" alt="Suite bathroom with a bathtub, glass shower and vanity" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Suite bathroom</span>
+            </button>
+          </div>
+
+          <div class="video-block">
+            <div class="video-block__head">
+              <h3>Suite room tour</h3>
+              <p>32 seconds · recorded inside the suite</p>
+            </div>
+            <div class="video-solo">
+              <button class="video-card video-card--landscape" type="button" data-video-src="assets/rv-resort/video/suite-room.mp4" data-video-poster="assets/rv-resort/suite-walkthrough-poster.webp" data-video-label="Suite room tour" aria-label="Play the suite room tour video, 32 seconds">
+                <img src="assets/rv-resort/suite-walkthrough-poster.webp" width="900" height="506" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Suite room tour<small>0:32 · bedroom walk-through</small></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section" id="gathering-hall" aria-labelledby="gathering-hall-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">05 · Gatherings</p>
+            <h2 id="gathering-hall-title">Large gathering hall</h2>
+            <p>The open hall is the indoor gathering space, with a long marble floor and room for event seating. Gathering capacity is confirmed for the specific event.</p>
+          </header>
+
+          <div class="photo-grid photo-grid--solo">
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/hall-1200.webp" data-alt="Long open hall with a marble floor, dark beams and seating along one wall" data-caption="Open hall">
+              <img src="assets/rv-resort/hall-640.webp" srcset="assets/rv-resort/hall-640.webp 640w, assets/rv-resort/hall-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 820px" width="1200" height="800" alt="Long open hall with a marble floor, dark beams and seating along one wall" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Open hall</span>
+            </button>
+          </div>
+
+          <div class="video-feature">
+            <button class="video-card" type="button" data-video-src="assets/rv-resort/video/open-hall.mp4" data-video-poster="assets/rv-resort/open-hall-poster.webp" data-video-label="Open hall tour" aria-label="Play the open hall video, 41 seconds">
+              <img src="assets/rv-resort/open-hall-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+              <span class="video-card__shade" aria-hidden="true"></span>
+              <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+              <span class="video-card__label">Open hall tour<small>0:41 · through the hall</small></span>
+            </button>
+            <div class="video-feature__copy">
+              <h3>Inside the gathering hall</h3>
+              <p>A 41-second walk through the open hall, past the seating and towards the inner rooms.</p>
+              <span class="video-feature__meta">Portrait clip · 0:41</span>
+              <div class="video-feature__tags" aria-label="Gathering hall details">
+                <span>Indoor hall</span><span>Marble floor</span><span>Event seating</span><span>Capacity confirmed per event</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section property-section--tint" id="box-cricket" aria-labelledby="box-cricket-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">06 · Outdoors</p>
+            <h2 id="box-cricket-title">Box cricket</h2>
+            <p>The netted box-cricket court is part of the outdoor grounds.</p>
+          </header>
+
+          <div class="photo-grid photo-grid--solo">
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/box-cricket-1200.webp" data-alt="Netted box-cricket court with a green playing surface" data-caption="Box cricket court">
+              <img src="assets/rv-resort/box-cricket-640.webp" srcset="assets/rv-resort/box-cricket-640.webp 640w, assets/rv-resort/box-cricket-1200.webp 1200w" sizes="(max-width: 559px) 100vw, 820px" width="1200" height="769" alt="Netted box-cricket court with a green playing surface" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Box cricket court</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="property-section" id="views" aria-labelledby="views-title">
+        <div class="section-inner">
+          <header class="property-heading">
+            <p class="eyebrow">07 · Outdoors</p>
+            <h2 id="views-title">Views, balconies &amp; property exterior</h2>
+            <p>The pergola, poolside views and first-floor balcony look out over the fields around the villa.</p>
+          </header>
+
+          <div class="photo-grid photo-grid--views">
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/hero-cover-1448.webp" data-alt="Villa exterior with the pergola, pool and lawn" data-caption="Villa, pergola &amp; pool">
+              <img src="assets/rv-resort/hero-cover-960.webp" srcset="assets/rv-resort/hero-cover-960.webp 960w, assets/rv-resort/hero-cover-1448.webp 1448w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 100vw, 66vw" width="1448" height="814" alt="Villa exterior with the pergola, swimming pool and lawn" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Villa, pergola &amp; pool</span>
+            </button>
+            <button class="media-tile media-tile--landscape" type="button" data-full="assets/rv-resort/pergola-1200.webp" data-alt="Pergola frame and tiled platform beside the pool" data-caption="Pergola &amp; stage view">
+              <img src="assets/rv-resort/pergola-640.webp" srcset="assets/rv-resort/pergola-640.webp 640w, assets/rv-resort/pergola-1200.webp 980w" sizes="(max-width: 559px) 100vw, (max-width: 999px) 46vw, 28vw" width="980" height="1600" alt="Pergola frame and tiled platform beside the pool" loading="lazy" decoding="async">
+              <span class="media-tile__caption">Pergola &amp; stage view</span>
+            </button>
+          </div>
+
+          <div class="video-block">
+            <div class="video-block__head">
+              <h3>Balcony &amp; outside views</h3>
+              <p>Tap a clip to load and play it.</p>
+            </div>
+            <div class="video-grid video-grid--portrait">
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/balcony.mp4" data-video-poster="assets/rv-resort/balcony-tour-poster.webp" data-video-label="Balcony view" aria-label="Play the balcony view video, 35 seconds">
+                <img src="assets/rv-resort/balcony-tour-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Balcony view<small>0:35 · landing to balcony</small></span>
+              </button>
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/outside-view.mp4" data-video-poster="assets/rv-resort/outside-view-poster.webp" data-video-label="Outside view 1" aria-label="Play the first outside view video, 8 seconds">
+                <img src="assets/rv-resort/outside-view-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Outside view · 1<small>0:08 · fields and pool</small></span>
+              </button>
+              <button class="video-card" type="button" data-video-src="assets/rv-resort/video/outside-view-2.mp4" data-video-poster="assets/rv-resort/outside-view-2-poster.webp" data-video-label="Outside view 2" aria-label="Play the second outside view video, 11 seconds">
+                <img src="assets/rv-resort/outside-view-2-poster.webp" width="900" height="1600" alt="" loading="lazy" decoding="async">
+                <span class="video-card__shade" aria-hidden="true"></span>
+                <span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4.8c0-.8.9-1.3 1.6-.8l11 7.2a1 1 0 0 1 0 1.6l-11 7.2a1 1 0 0 1-1.6-.8Z"/></svg></span>
+                <span class="video-card__label">Outside view · 2<small>0:11 · balcony outlook</small></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="contact-section" id="contact">
+      <div class="section-inner">
+        <div class="contact-panel">
+          <div>
+            <p class="eyebrow">RV Resorts</p>
+            <h2>Plan your gathering.</h2>
+            <p>Call or message to check availability, discuss event capacity and get directions. Overnight stays are for up to 25; gathering capacity is confirmed for your event.</p>
+            <a class="contact-phone" href="tel:8367448866">8367448866</a>
+          </div>
+          <div class="contact-actions">
+            <a class="button button--dark" href="tel:8367448866">Call</a>
+            <a class="button button--light" href="https://wa.me/918367448866" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a class="button button--gold" href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&amp;entry=gps&amp;shh=CAE&amp;lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&amp;g_st=ic" target="_blank" rel="noopener noreferrer">Directions</a>
+            <a class="button button--light" href="https://www.instagram.com/rv_resorts/" target="_blank" rel="noopener noreferrer">
+              <svg class="instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="footer-brand">RV Resorts</span>
+    <span>Stay · Party · Gather</span>
+    <a class="instagram-footer" href="https://www.instagram.com/rv_resorts/" target="_blank" rel="noopener noreferrer">
+      <svg class="instagram-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+      @rv_resorts
+    </a>
+  </footer>
+
+  <nav class="action-dock" aria-label="Quick contact">
+    <a href="tel:8367448866">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-3 2a15 15 0 0 0 5 5l2-3 5 2v4c0 1-1 2-2 2C10 20 4 14 3 6c0-1 1-2 2-2Z"/></svg>
+      Call
+    </a>
+    <a href="https://wa.me/918367448866" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z"/><path d="M9 8.5c.4 2 2 3.6 4.5 4.5"/></svg>
+      WhatsApp
+    </a>
+    <a href="https://maps.google.com/?ftid=0x3a396500735e67e1:0xd41931f75d52779&amp;entry=gps&amp;shh=CAE&amp;lucs=,94297699,94231188,94280568,47071704,94218641,94282134,100813464,94286869,100820247&amp;g_st=ic" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      Directions
+    </a>
+  </nav>
+
+  <dialog class="gallery-dialog" id="gallery-dialog" aria-label="Expanded property photo">
+    <button class="dialog-close" type="button" aria-label="Close photo">&times;</button>
+    <img class="dialog-image" id="dialog-image" src="" alt="">
+    <p class="dialog-caption" id="dialog-caption"></p>
+  </dialog>
+
+  <script>
+    const galleryDialog = document.getElementById("gallery-dialog");
+    const dialogImage = document.getElementById("dialog-image");
+    const dialogCaption = document.getElementById("dialog-caption");
+    const dialogClose = galleryDialog.querySelector(".dialog-close");
+    let lastPhotoTrigger = null;
+
+    document.querySelectorAll(".media-tile").forEach((tile) => {
+      tile.addEventListener("click", () => {
+        lastPhotoTrigger = tile;
+        dialogImage.src = tile.dataset.full;
+        dialogImage.alt = tile.dataset.alt;
+        dialogCaption.textContent = tile.dataset.caption || "";
+        galleryDialog.showModal();
+      });
+    });
+
+    dialogClose.addEventListener("click", () => galleryDialog.close());
+    galleryDialog.addEventListener("click", (event) => {
+      if (event.target === galleryDialog) galleryDialog.close();
+    });
+    galleryDialog.addEventListener("close", () => {
+      dialogImage.src = "";
+      dialogImage.alt = "";
+      dialogCaption.textContent = "";
+      if (lastPhotoTrigger) lastPhotoTrigger.focus({ preventScroll: true });
+    });
+
+    document.querySelectorAll(".video-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const isLandscape = card.classList.contains("video-card--landscape");
+        const frame = document.createElement("div");
+        frame.className = "video-player-frame " + (isLandscape ? "video-player-frame--landscape" : "video-player-frame--portrait");
+
+        const video = document.createElement("video");
+        video.controls = true;
+        video.playsInline = true;
+        video.preload = "auto";
+        video.poster = card.dataset.videoPoster;
+        video.src = card.dataset.videoSrc;
+        video.setAttribute("aria-label", card.dataset.videoLabel || "Property video");
+
+        video.addEventListener("error", () => {
+          const message = document.createElement("p");
+          message.className = "video-error";
+          message.textContent = "This video could not be loaded. Please try again.";
+          frame.appendChild(message);
+        });
+
+        frame.appendChild(video);
+        card.replaceWith(frame);
+        const playAttempt = video.play();
+        if (playAttempt && playAttempt.catch) playAttempt.catch(() => {});
+        video.focus({ preventScroll: true });
+      });
+    });
+  </script>
 </body>
 </html>
